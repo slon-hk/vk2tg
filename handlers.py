@@ -14,7 +14,7 @@ router = Router()
 async def cmd_start(message: types.Message):
     await message.answer(
         "Привет Это бот Vk2Tg, он позволяет тебе общаться с твоими друзьями в Вк не уходя из телеграмма",
-        reply_markup=kb.main,
+        reply_markup=kb.keyboard_main,
     )
 
 
@@ -23,4 +23,12 @@ async def friends(message: types.Message):
     await message.answer(
         "Выберете Друга которому хотите написать, для поиска друга отправьте его Имя",
         reply_markup=kb.friends_main,
+    )
+
+
+@router.message(F.text == "Чаты")
+async def chat(message: types.Message):
+    await message.answer(
+        "Выберете чат в который хотите перейти",
+        reply_markup=kb.chat_main,
     )

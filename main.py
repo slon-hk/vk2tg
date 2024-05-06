@@ -5,11 +5,17 @@ token = ""
 session = vk_api.VkApi(token=token)
 vk = session.get_api()
 
+
 def friends(page):
     friends_list = []  # [[user_name, id_user]]
     for i in range(page * 10 - 10, page * 10):
         friends = (vk.friends.get(fields=True, order="hints")).get("items")
-        friends_list.append([f'{friends[i].get("first_name")} {friends[i].get("last_name")}', friends[i].get("id")])
+        friends_list.append(
+            [
+                f'{friends[i].get("first_name")} {friends[i].get("last_name")}',
+                friends[i].get("id"),
+            ]
+        )
     return friends_list
 
 
@@ -45,6 +51,4 @@ def chat():
             if len(last_message) > 50:
                 last_message = last_message[:50]
             chat_list.append([title_group, "id_group", last_message])
-
-    print(chat_list)
-    print(chat.get("items")[i].get("last_message").get("text"))
+    return chat_list
