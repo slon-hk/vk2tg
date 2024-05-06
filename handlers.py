@@ -6,7 +6,7 @@ import asyncio
 
 import keyboard as kb
 
-bot = Bot(token="7120855483:AAHwJejnkJ-beolR8mfWBI4sydyL0YZDWuc")
+bot = Bot(token="")
 router = Router()
 
 
@@ -22,5 +22,5 @@ async def cmd_start(message: types.Message):
 async def friends(message: types.Message):
     await message.answer(
         "Выберете Друга которому хотите написать, для поиска друга отправьте его Имя",
-        reply_markup=kb.friends,
+        reply_markup=kb.friends_main,
     )

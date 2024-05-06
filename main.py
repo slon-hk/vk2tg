@@ -1,38 +1,50 @@
 import vk_api
 
-token = "vk1.a.Uc0EN3_PHjlq5Nwb6uIsKQgvphAG0SSGKXg2i18kgYBEe4v8g5NrL27rvrTp5YhFLQb5U2Ka-Th87Get3E2yzKxKLCEAXrDnc_csLAV2s9azbfPjzSkzUPYZaZlg7wdcoLRUovQdsk_Rd85omLhRNBzWHpFPoxiUcekV4SgaH4oB73jvsgScNgzRUZrfEhEPcgFiZFja908n5aCT9zP6Eg"
+token = ""
 
 session = vk_api.VkApi(token=token)
 vk = session.get_api()
 
-
-def send(msg):
-    # vk.messages.send(user_id=499729999, message=msg, random_id=1)
-    print(vk.messages.getDialogs(unread=1, unanswered=1))
-
-
 def friends(page):
-    friends_list = []
+    friends_list = []  # [[user_name, id_user]]
     for i in range(page * 10 - 10, page * 10):
         friends = (vk.friends.get(fields=True, order="hints")).get("items")
-        friends_list.append(
-            [
-                friends[i].get("first_name"),
-                friends[i].get("last_name"),
-                friends[i].get("id"),
-            ]
-        )
+        friends_list.append([f'{friends[i].get("first_name")} {friends[i].get("last_name")}', friends[i].get("id")])
     return friends_list
 
 
-def chat(page):
-    chat_list = []
-    chat = vk.messages.getDialogs()
-    count = chat.get("count")
-    chat = chat.get("items")
-    for i in range(chat.get("count")):
-        name = vk.friends.search(user_id="1")
-    print(chat)
+def chat():
+    chat_list = []  # [[user_name, id_user. last_message[:20]]]
+    chat = vk.messages.getConversations()
 
+    # group
+    # title_group = chat.get("items")[0].get("conversation").get("chat_settings").get("title")
 
-chat(1)
+    # chat with users
+    for i in range(len(chat.get("items"))):
+        # chats with users
+        if chat.get("items")[i].get("conversation").get("peer").get("type") == "user":
+            id_user = (
+                chat.get("items")[i].get("conversation").get("peer").get("local_id")
+            )
+            title_user = f"{vk.users.get(user_id=id_user)[0].get('first_name')} {vk.users.get(user_id=id_user)[0].get('last_name')}"
+            last_message = chat.get("items")[i].get("last_message").get("text")
+            if len(last_message) > 50:
+                last_message = last_message[:50]
+            chat_list.append([title_user, id_user, last_message])
+
+        # group chats
+        elif chat.get("items")[i].get("conversation").get("peer").get("type") == "chat":
+            title_group = (
+                chat.get("items")[i]
+                .get("conversation")
+                .get("chat_settings")
+                .get("title")
+            )
+            last_message = chat.get("items")[i].get("last_message").get("text")
+            if len(last_message) > 50:
+                last_message = last_message[:50]
+            chat_list.append([title_group, "id_group", last_message])
+
+    print(chat_list)
+    print(chat.get("items")[i].get("last_message").get("text"))

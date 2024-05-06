@@ -8,7 +8,7 @@ from main import friends
 
 keyboard_button = [
     [KeyboardButton(text="Друзья"), KeyboardButton(text="Чаты")],
-    [KeyboardButton(text="Найстройки"), KeyboardButton(text="Профиль")],
+    [KeyboardButton(text="Настройки"), KeyboardButton(text="Профиль")],
 ]
 main = ReplyKeyboardMarkup(
     keyboard=keyboard_button,
@@ -16,82 +16,26 @@ main = ReplyKeyboardMarkup(
     input_field_placeholder="Выберете пункт меню!",
 )
 
-page_count = 0
-friends = friends(1)
-friends_button = [
+friends_list = friends(1)
+friend = [
+    [InlineKeyboardButton(text=friends_list[0], callback_data=friends_list[1])],
+    [InlineKeyboardButton(text=friends_list[0], callback_data=friends_list[1])],
+    [InlineKeyboardButton(text=friends_list[0], callback_data=friends_list[1])],
+    [InlineKeyboardButton(text=friends_list[0], callback_data=friends_list[1])],
+    [InlineKeyboardButton(text=friends_list[0], callback_data=friends_list[1])],
+    [InlineKeyboardButton(text=friends_list[0], callback_data=friends_list[1])],
+    [InlineKeyboardButton(text=friends_list[0], callback_data=friends_list[1])],
+    [InlineKeyboardButton(text=friends_list[0], callback_data=friends_list[1])],
+    [InlineKeyboardButton(text=friends_list[0], callback_data=friends_list[1])],
+    [InlineKeyboardButton(text=friends_list[0], callback_data=friends_list[1])],
     [
-        InlineKeyboardButton(
-            text=f"{friends[page_count][0]} {friends[page_count][1]}",
-            callback_data=f"{friends[page_count][2]}",
-        )
-    ],
-    [
-        InlineKeyboardButton(
-            text=f"{friends[page_count][0]} {friends[page_count][1]}",
-            callback_data=f"{friends[page_count][2]}",
-        )
-    ],
-    [
-        InlineKeyboardButton(
-            text=f"{friends[page_count][0]} {friends[page_count][1]}",
-            callback_data=f"{friends[page_count][2]}",
-        )
-    ],
-    [
-        InlineKeyboardButton(
-            text=f"{friends[page_count][0]} {friends[page_count][1]}",
-            callback_data=f"{friends[page_count][2]}",
-        )
-    ],
-    [
-        InlineKeyboardButton(
-            text=f"{friends[page_count][0]} {friends[page_count][1]}",
-            callback_data=f"{friends[page_count][2]}",
-        )
-    ],
-    [
-        InlineKeyboardButton(
-            text=f"{friends[page_count][0]} {friends[page_count][1]}",
-            callback_data=f"{friends[page_count][2]}",
-        )
-    ],
-    [
-        InlineKeyboardButton(
-            text=f"{friends[page_count][0]} {friends[page_count][1]}",
-            callback_data=f"{friends[page_count][2]}",
-        )
-    ],
-    [
-        InlineKeyboardButton(
-            text=f"{friends[page_count][0]} {friends[page_count][1]}",
-            callback_data=f"{friends[page_count][2]}",
-        )
-    ],
-    [
-        InlineKeyboardButton(
-            text=f"{friends[page_count][0]} {friends[page_count][1]}",
-            callback_data=f"{friends[page_count][2]}",
-        )
-    ],
-    [
-        InlineKeyboardButton(
-            text=f"{friends[page_count][0]} {friends[page_count][1]}",
-            callback_data=f"{friends[page_count][2]}",
-        )
-    ],
-    [
-        InlineKeyboardButton(text="<=", callback_data="<="),
-        InlineKeyboardButton(text="=>", callback_data="=>"),
+        InlineKeyboardButton(text="<-", callback_data="behind"),
+        InlineKeyboardButton(text="->", callback_data="next"),
     ],
 ]
-friends = InlineKeyboardMarkup(inline_keyboard=friends_button, resize_keyboard=True)
 
-chat = friends(1)
-chat_button = [
-    [
-        InlineKeyboardButton(
-            text=f"{friends[page_count][0]} {friends[page_count][1]}",
-            callback_data=f"{friends[page_count][2]}",
-        )
-    ]]
-chat = InlineKeyboardMarkup(inline_keyboard=chat_button, resize_keyboard=True)
+friends_main = InlineKeyboardMarkup(
+    keyboard=friend,
+    resize_keyboard=True,
+    input_field_placeholder="Найдите своих друзей",
+)
