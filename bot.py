@@ -4,6 +4,9 @@ from aiogram.filters.command import Command
 from handlers import router
 import asyncio
 
+from colorama import init
+init()
+from colorama import Fore, Back, Style
 
 async def main():
     bot = Bot(token="")
@@ -16,4 +19,4 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        print("BOT TURN OFF")
+        print(Style.BRIGHT+Fore.RED+"BOT TURN OFF")
