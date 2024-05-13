@@ -23,33 +23,43 @@ class FSMFillForm(StatesGroup):
     fill_token = State()
     fill_msg = State()
     await_comm = State()
+    yes_no = State()
 
-@router.message(Command("start"), StateFilter(default_state))
+@router.message(CommandStart(), StateFilter(default_state))
 async def cmd_start(message: types.Message, state: FSMContext):
-    await message.answer("Привет Это бот Vk2Tg, он позволяет тебе общаться с твоими друзьями в Вк не уходя из телеграмма", reply_markup=kb.keyboard_main)
+    await message.answer("Привет Это бот Vk2Tg, он позволяет тебе общаться с твоими друзьями в Вк не уходя из телеграмма")
     db.db_start()
-    await message.answer(text='Введите токен')
-    await state.set_state(FSMFillForm.fill_token)
+    if db.filtr_db(message.from_user.id) == False:
+        await message.answer(text='Введите токен')
+        await state.set_state(FSMFillForm.fill_token)
+    else:
+        await message.answer(text='Вы уже зарегестрированны.\nХотите изменить токен?', reply_markup=kb.yes_main)
 
-@router.message(StateFilter(FSMFillForm.fill_token), F.text.isalpha())
+@router.message(StateFilter(FSMFillForm.fill_token))
 async def process_token_sent(message: Message, state: FSMContext):
-    db.send_vk_token(message.from_user.id, str(message.text))
-    await message.answer("Токен принят")
+    db.send_vk_token(message.from_user.id, message.text)
+    await message.answer("Токен принят", reply_markup=kb.keyboard_main)
     await message.answer(text=db.return_db())
-    await state.set_state(FSMFillForm.await_comm)
+    await state.clear()
 
-@router.message(StateFilter(FSMFillForm.await_comm),F.text == "Друзья")
+@router.message(F.text == "yes")
+async def friends(message: types.Message):
+    await message.answer(
+        "Выберете Друга которому хотите написать, для поиска друга отправьте его Имя",
+        reply_markup=kb.friends_main)
+
+@router.message(F.text == "Друзья")
 async def friends(message: types.Message):
     await message.answer(
         "Выберете Друга которому хотите написать, для поиска друга отправьте его Имя",
         reply_markup=kb.friends_main)
 
 
-@router.message(StateFilter(FSMFillForm.await_comm), F.text == "Чаты")
+@router.message(F.text == "Чаты")
 async def chat(message: types.Message):
     await message.answer("Выберете чат в который хотите перейти", reply_markup=kb.chat_main)
 
 
-@router.message(StateFilter(FSMFillForm.await_comm), F.text == "Настройки")
+@router.message(F.text == "Настройки")
 async def send_voice_message(message: types.Message):
     pass

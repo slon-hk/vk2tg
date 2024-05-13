@@ -35,3 +35,7 @@ chat_button.append(
     [InlineKeyboardButton(text="<-", callback_data="behind"), InlineKeyboardButton(text="->", callback_data="next")])
 
 chat_main = InlineKeyboardMarkup(inline_keyboard=chat_button, resize_keyboard=True)
+
+#YES OR NO
+yes_button = [[InlineKeyboardButton(text="Да", callback_data="yes"),InlineKeyboardButton(text="Нет", callback_data="no"),]]
+yes_main = InlineKeyboardMarkup(inline_keyboard=yes_button, resize_keyboard=True)
