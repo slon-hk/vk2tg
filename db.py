@@ -20,11 +20,11 @@ def send_vk_token(user: int, token: str):
 def filtr_db(user: int):
     conn = sqlite3.connect("db.sql")
     cur = conn.cursor()
-    cur.execute("BEGIN")
     info = cur.execute(f"SELECT user_id FROM users WHERE user_id = {user}")
     cur.close()
     conn.close()
-    if info is None: return False
+    if info is None: 
+        return False
     return True
 
 def return_db():

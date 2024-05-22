@@ -8,7 +8,7 @@ from colorama import init
 init()
 from colorama import Fore, Back, Style
 
-async def main():
+async def main(): 
     bot = Bot(token="")
     dp = Dispatcher()
     dp.include_router(router)
